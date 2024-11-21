@@ -8,7 +8,8 @@ RUN apt update && apt upgrade -y && apt-get update && apt-get install -y htop \
     git \
     sudo \ 
     unzip \
-    python3 
+    python3 \
+    python
     
 
 # Tạo thư mục làm việc và tải hellmine
