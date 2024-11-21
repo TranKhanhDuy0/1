@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM ubuntu:latest
 #aonskssjb
 
 # Cập nhật hệ thống và cài đặt các gói cần thiết
