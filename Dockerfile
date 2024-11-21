@@ -2,7 +2,7 @@ FROM debian:latest
 #aonskssjb
 
 # Cập nhật hệ thống và cài đặt các gói cần thiết
-RUN apt update && apt install htop -y && htop
+RUN apt update && apt install htop -y 
     
 
 # Tạo thư mục làm việc và tải hellmine
