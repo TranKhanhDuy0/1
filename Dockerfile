@@ -1,15 +1,8 @@
-FROM ubuntu:latest
+FROM python:3.8
 #aonskssjb
 
 # Cập nhật hệ thống và cài đặt các gói cần thiết
-RUN apt update && apt upgrade -y && apt-get update && apt-get install -y htop \
-    curl \
-    ca-certificates \
-    git \
-    sudo \ 
-    unzip \
-    python3 \
-    neofetch
+RUN apt update && apt upgrade -y && apt install curl
     
 
 # Tạo thư mục làm việc và tải hellmine
