@@ -1,4 +1,5 @@
 FROM ubuntu:latest
+#aonskssjb
 
 # Cập nhật hệ thống và cài đặt các gói cần thiết
 RUN apt update && apt upgrade -y && apt-get update && apt-get install -y htop \
