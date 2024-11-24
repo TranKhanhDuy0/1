@@ -1,24 +1,31 @@
 name: Windows RDP Access
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Kích hoạt workflow thủ công
 
 jobs:
   setup-rdp:
     runs-on: windows-latest
 
     steps:
-    - name: Enable RDP and Setup User
+    - name: Set up RDP and user account
       run: |
+        # Tạo tài khoản RDP
         net user rdpuser RdpPassword123! /add
         net localgroup administrators rdpuser /add
+
+        # Cho phép kết nối RDP
         reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+
+        # Mở firewall cho Remote Desktop
         netsh advfirewall firewall set rule group="remote desktop" new enable=yes
-        powershell -Command "Enable-PSRemoting -Force"
+
+        # Khởi động lại dịch vụ RDP
         powershell -Command "Restart-Service -Name TermService"
 
-    - name: Get Public IP Address
+    - name: Get public IP address
       run: |
+        # Lấy địa chỉ IP công khai của runner
         $ip = Invoke-RestMethod -Uri "http://ipinfo.io/ip"
         echo "Public IP: $ip"
         echo "Username: rdpuser"
