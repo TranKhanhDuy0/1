@@ -1,0 +1,25 @@
+name: Windows RDP Access
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-rdp:
+    runs-on: windows-latest
+
+    steps:
+    - name: Enable RDP and Setup User
+      run: |
+        net user rdpuser RdpPassword123! /add
+        net localgroup administrators rdpuser /add
+        reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+        netsh advfirewall firewall set rule group="remote desktop" new enable=yes
+        powershell -Command "Enable-PSRemoting -Force"
+        powershell -Command "Restart-Service -Name TermService"
+
+    - name: Get Public IP Address
+      run: |
+        $ip = Invoke-RestMethod -Uri "http://ipinfo.io/ip"
+        echo "Public IP: $ip"
+        echo "Username: rdpuser"
+        echo "Password: RdpPassword123!"
