@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Login to Azure
-      uses: azure/login@v1
+      uses: cloud@dichvudev.store/@1U2I3o4p
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }} # Lưu Azure Service Principal trong GitHub Secrets
 
