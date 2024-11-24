@@ -1,0 +1,18 @@
+# Sử dụng hình ảnh Windows Server Core
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
+
+# Cài đặt RDP
+RUN powershell -Command \
+    Install-WindowsFeature -Name RDS-RD-Server; \
+    Install-WindowsFeature -Name RDS-Licensing-Role; \
+    Install-WindowsFeature -Name RDS-Licensing
+
+# Tạo tài khoản admin
+RUN net user /add myadmin MyPassword123! && \
+    net localgroup administrators myadmin /add
+
+# Mở port cho RDP
+EXPOSE 3389
+
+# Khởi chạy RDP service
+CMD ["powershell", "-Command", "Set-ItemProperty -Path 'HKLM:\\System\\CurrentControlSet\\Control\\Terminal Server' -Name 'fDenyTSConnections' -Value 0; Start-Service -Name TermService; while ($true) { Start-Sleep -Seconds 60 }"]
