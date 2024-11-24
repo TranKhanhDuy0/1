@@ -1,0 +1,44 @@
+name: Deploy Windows VM
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-vm:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }} # Lưu Azure Service Principal trong GitHub Secrets
+
+    - name: Create Resource Group
+      run: |
+        az group create --name MyResourceGroup --location eastus
+
+    - name: Create Windows VM
+      run: |
+        az vm create \
+          --resource-group MyResourceGroup \
+          --name MyWindowsVM \
+          --image win2019-datacenter \
+          --admin-username myadmin \
+          --admin-password MyPassword123! \
+          --size Standard_B2s \
+          --generate-ssh-keys
+
+    - name: Get VM Public IP
+      run: |
+        VM_IP=$(az vm list-ip-addresses --name MyWindowsVM --resource-group MyResourceGroup --query "[0].virtualMachine.network.publicIpAddresses[0].ipAddress" -o tsv)
+        echo "VM_PUBLIC_IP=$VM_IP" >> $GITHUB_ENV
+
+    - name: Output RDP Connection Info
+      run: |
+        echo "Connect to the VM using the following credentials:"
+        echo "IP Address: ${{ env.VM_PUBLIC_IP }}"
+        echo "Username: myadmin"
+        echo "Password: MyPassword123!"
